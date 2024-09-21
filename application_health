@@ -1,0 +1,24 @@
+import requests
+import logging
+
+# Setup logging
+logging.basicConfig(filename='app_health.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+
+# URL of the application to check
+APP_URL = 'http://example.com'  # Replace with your application URL
+
+def check_application_health():
+    try:
+        response = requests.get(APP_URL, timeout=5)
+        if response.status_code == 200:
+            logging.info(f"Application is UP. Status code: {response.status_code}")
+            return "Application is UP"
+        else:
+            logging.error(f"Application is DOWN. Status code: {response.status_code}")
+            return "Application is DOWN"
+    except requests.RequestException as e:
+        logging.error(f"Application is DOWN. Error: {str(e)}")
+        return "Application is DOWN"
+
+if _name_ == "_main_":
+    print(check_application_health())
